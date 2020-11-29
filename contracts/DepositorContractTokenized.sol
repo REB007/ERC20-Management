@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/GSN/Context.sol";
  /**
  * @dev DepositorContract is a contract that can claim tokens from teacher ERC20. 
  *
- * It keeps track of addresses who claimed token, and how much.
+ * It keeps track of addresses who claimed token, and how much thanks to another ERC20;
  *
  * DepositorContract also allows you to deposit tokens. 
  *
