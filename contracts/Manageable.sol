@@ -3,16 +3,9 @@ pragma solidity >=0.6.0 <0.8.0;
 import "@openzeppelin/contracts/GSN/Context.sol";
 
 /**
- * @dev Contract module which provides a basic access control mechanism, where
- * there is an account (an owner) that can be granted exclusive access to
- * specific functions.
- *
- * By default, the owner account will be the one that deploys the contract. This
- * can later be changed with {transferOwnership}.
- *
- * This module is used through inheritance. It will make available the modifier
- * `onlyOwner`, which can be applied to your functions to restrict their use to
- * the owner.
+ * @dev Module permettant de donner les droit de management (ici mint et burn) à une addresse
+ * Une fois nommé, il est impossible de changer de manager pour eviter tout abus et garantir
+ * ainsi la decentralisation du projet.
  */
 
 abstract contract Manageable is Context {
@@ -24,7 +17,7 @@ abstract contract Manageable is Context {
     event ManagerAppointed(address indexed creator, address indexed manager);
 
     /**
-     * @dev Initializes the contract setting the deployer as the initial owner.
+     * @dev Initializes the contract setting the deployer as the creator.
      */
     constructor () internal {
         address msgSender = _msgSender();
@@ -32,14 +25,14 @@ abstract contract Manageable is Context {
     }
 
     /**
-     * @dev Returns the address of the current owner.
+     * @dev Returns the address of the manager.
      */
     function manager() public view returns (address) {
         return _manager;
     }
 
     /**
-     * @dev Throws if called by any account other than the owner.
+     * @dev Throws if called by any account other than the manager.
      */
     modifier onlyManager() {
         require(_manager == _msgSender(), "Ownable: caller is not the owner");
@@ -47,8 +40,8 @@ abstract contract Manageable is Context {
     }
 
     /**
-     * @dev Transfers ownership of the contract to a new account (`newOwner`).
-     * Can only be called by the current owner.
+     * @dev Appoints the manager
+     * Can only be called by the creator once.
      */
     function appointManager(address newManager) public virtual {
         require(_creator == _msgSender(), "Ownable: caller is not the owner");
